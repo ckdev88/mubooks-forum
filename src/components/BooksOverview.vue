@@ -128,7 +128,7 @@
 			<!-- </ul> -->
 			<br /><br />
 			<!-- <button @click="addTopic('Drama')">add drama</button> -->
-			{{ percentIncrease(6244, 12757) }}
+			<!-- {{ percentIncrease(6244, 12757) }} -->
 		</div>
 	</div>
 </template>
@@ -306,9 +306,7 @@ export default {
 			let smaller = ((newN - oldN) / oldN) * 100
 			console.log('percent increase:', smaller)
 		},
-		addToBooklist(e) {
-			console.log('event?', e)
-			console.log('this.abTitle:', this.abTitle)
+		addToBooklist() {
 			let newbook = {
 				title: this.abTitle,
 				releaseYear: this.abReleaseYear,
@@ -318,7 +316,16 @@ export default {
 				topics: this.abTopics.split(',')
 			}
 			this.booklist.push(newbook)
+			this.cleanform()
 			console.log(this.booklist)
+		},
+		cleanform() {
+			this.abTitle = null
+			this.abReleaseYear = null
+			this.abPages = null
+			this.abChapters = null
+			this.abGenres = null
+			this.abTopics = null
 		}
 	},
 	watch: {
@@ -334,6 +341,9 @@ export default {
 		// },
 		count(val, oldVal) {
 			console.log(val, oldVal)
+		},
+		booklist() {
+			console.log('?')
 		},
 		favoriteTopics(val, oldVal) {
 			console.log('val', val)
