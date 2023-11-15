@@ -1,15 +1,17 @@
 <template>
-	<HelloWorld msg="Welcome to Your Vue.js App" />
 	<BooksOverview />
-	<SeriesOverview />
+	<!-- <SeriesOverview /> -->
 </template>
 
 <script>
-import SeriesOverview from '@/components/SeriesOverview.vue'
+// import SeriesOverview from '@/components/SeriesOverview.vue'
 import BooksOverview from '@/components/BooksOverview.vue'
 export default {
 	name: 'App',
-	components: { SeriesOverview, BooksOverview }
+	components: {
+		// SeriesOverview,
+		BooksOverview
+	}
 }
 </script>
 
