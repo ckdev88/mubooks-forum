@@ -24,9 +24,7 @@
 						><span>{{ castMember.uri }}</span></a
 					>
 				</div>
-				<div v-if="castMember.hobbies">
-					<strong>Hobbies:</strong> {{ castMember.hobbies }}
-				</div>
+				<div v-if="castMember.hobbies"><strong>Hobbies:</strong> {{ castMember.hobbies }}</div>
 				<button @click="castMember.isFavourited = !castMember.isFavourited">
 					Favourite toggle
 				</button>
@@ -70,14 +68,16 @@ export default {
 				id: 1,
 				name: 'Beren Saat',
 				uri: 'https://www.imdb.com/name/nm1754321/',
-				photo: 'https://imgs.search.brave.com/5zdAwhRQ_igUZWNM_18F9wUGwpwPkgKle2NDG2tZaf8/rs:fit:860:0:0/g:ce/aHR0cHM6Ly9pLnBp/bmltZy5jb20vb3Jp/Z2luYWxzL2RjL2M2/L2UyL2RjYzZlMjdm/ZWUzYzE0MWM1MTIy/MWJkNTkyMTJmNWJl/LmpwZw',
+				photo:
+					'https://imgs.search.brave.com/5zdAwhRQ_igUZWNM_18F9wUGwpwPkgKle2NDG2tZaf8/rs:fit:860:0:0/g:ce/aHR0cHM6Ly9pLnBp/bmltZy5jb20vb3Jp/Z2luYWxzL2RjL2M2/L2UyL2RjYzZlMjdm/ZWUzYzE0MWM1MTIy/MWJkNTkyMTJmNWJl/LmpwZw',
 				isFavourited: true
 			},
 			{
 				id: 2,
 				name: 'Mehmet Günsür',
 				uri: 'https://www.imdb.com/name/nm0348347/',
-				photo: 'https://imgs.search.brave.com/dxT-mM_Cnxi3Lfqk-1JE66CLfrttu9UMjYNFQAoqMRA/rs:fit:860:0:0/g:ce/aHR0cHM6Ly93d3cu/aGFiZXJsZXIuY29t/L2kvMTAvbWVobWV0/LWd1bnN1cl85ODMy/X2IuanBn',
+				photo:
+					'https://imgs.search.brave.com/dxT-mM_Cnxi3Lfqk-1JE66CLfrttu9UMjYNFQAoqMRA/rs:fit:860:0:0/g:ce/aHR0cHM6Ly93d3cu/aGFiZXJsZXIuY29t/L2kvMTAvbWVobWV0/LWd1bnN1cl85ODMy/X2IuanBn',
 				hobbies: 'Bowling',
 				isFavourited: false
 			},
@@ -85,7 +85,8 @@ export default {
 				id: 3,
 				name: 'Melisa Şenolsun',
 				uri: 'https://www.imdb.com/name/nm7487578/',
-				photo: 'https://imgs.search.brave.com/pBybiKY1EX8EbQDqwyHxoqZDJgYgZaSXVXgN9ywElvw/rs:fit:860:0:0/g:ce/aHR0cHM6Ly9pbWFn/ZXMubXViaWNkbi5u/ZXQvaW1hZ2VzL2Nh/c3RfbWVtYmVyLzY5/OTg5NS9jYWNoZS02/MTQ3NDgtMTYwNjcx/NTI5MS9pbWFnZS13/ODU2LmpwZz9zaXpl/PTgwMHg',
+				photo:
+					'https://imgs.search.brave.com/pBybiKY1EX8EbQDqwyHxoqZDJgYgZaSXVXgN9ywElvw/rs:fit:860:0:0/g:ce/aHR0cHM6Ly9pbWFn/ZXMubXViaWNkbi5u/ZXQvaW1hZ2VzL2Nh/c3RfbWVtYmVyLzY5/OTg5NS9jYWNoZS02/MTQ3NDgtMTYwNjcx/NTI5MS9pbWFnZS13/ODU2LmpwZz9zaXpl/PTgwMHg',
 				hobbies: 'Drinking',
 				isFavourited: false
 			},

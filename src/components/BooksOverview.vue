@@ -65,7 +65,7 @@
 		<p v-if="favoriteBooks.length === 0">No books in favoriteBooks yet</p>
 		<ul>
 			<li v-for="(book, index) in favoriteBooks" :key="index">
-				{{ book }}
+				<h4>{{ book }}</h4>
 				<button @click="removeFavoriteBook(book)">remove {{ index }} {{ book }}</button>
 			</li>
 		</ul>
