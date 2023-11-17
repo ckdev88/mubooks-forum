@@ -10,13 +10,12 @@
 					add book to favorites
 				</button>
 				<button v-if="favoriteBooks.includes(book.title)" @click="removeFavoriteBook(book.title)">
-					remove from favorites
-					{{ book.title }}
+					remove
 				</button>
 
 				<br />Genre:
 				<span v-for="(genre, index) in book.genres" :key="index"
-					>{{ genre }}
+					><button @click="addGenre(genre)">{{ genre }}</button>
 					<span v-if="index < book.genres.length - 1">, </span>
 				</span>
 
@@ -51,94 +50,38 @@
 		<button v-if="!showstatsnstuff" @click="showstatsnstuff = !showstatsnstuff">
 			Show stats n stuff
 		</button>
-		<div id="statsnstuff" v-if="showstatsnstuff" @click="showstatsnstuff = !showstatsnstuff">
-			<button>Hide stats n stuff</button>
-			<h3>Romances</h3>
-			<p v-if="genreRomanceBooks.length === 0">No romance books available</p>
-			<ul v-else>
-				<li v-for="(book, index) in genreRomanceBooks" :key="index">
-					{{ book.title }} ({{ book.releaseYear }})
-				</li>
-			</ul>
-			<hr />
-			<div v-if="genreDarkRomanceBooks.length > 0">
-				<h3>Dark Romances</h3>
-				<ul>
-					<li v-for="(book, index) in genreDarkRomanceBooks" :key="index">
-						{{ book.title }} ({{ book.releaseYear }})
-					</li>
-				</ul>
-			</div>
-
-			<h3>My loved topics</h3>
-			<p v-if="favoriteTopics.length === 0">No topics added yet</p>
-			<ul>
-				<li v-for="(topic, index) in favoriteTopics" :key="index">{{ topic }}</li>
-			</ul>
-
-			<h3>Statistics</h3>
-			<p>
-				Books with more than 150 pages: {{ amountBigBooks }}<br />
-				Books released this decade: {{ amountRecentBooks }}<br />
-				Books with small chapters: {{ amountBooksSmallChapters }}<br />
-				Books sold over 100000: {{ amountBooksBestsellers }}<br />
-
-				<!-- genre (romance, fantasy, thriller, dark romance) -->
-				<!-- tropes (strong female, dominant male lead, bdsm, maffia, occult, college) -->
-				<!-- keywords/trigger -->
-				<!-- author -->
-				<!-- number of pages -->
-				<!-- release 2023-11-13 -->
-
-				<!-- reading in app, where to buy -->
-			</p>
-			<h4>Genre statistics</h4>
-			{{ genreStatistics }}
+		<div id="statsnstuff" v-if="showstatsnstuff">
+			<button @click="showstatsnstuff = !showstatsnstuff">Hide stats n stuff</button>
 
 			<h3>Favorite books</h3>
 			<p v-if="favoriteBooks.length === 0">No books in favoriteBooks yet</p>
 			<ul>
 				<li v-for="(book, index) in favoriteBooks" :key="index">
-					<h4>{{ book }}</h4>
-					<button @click="removeFavoriteBook(book)">remove {{ index }} {{ book }}</button>
+					{{ book }} &nbsp;<button @click="removeFavoriteBook(book)">remove</button>
 				</li>
 			</ul>
 
-			<h3>Writers</h3>
-			<p v-if="authors.length === 0">No writers defined</p>
-			<ul>
-				<li v-for="(author, index) in authors" :key="index">{{ author.name }}</li>
-			</ul>
-			<!-- <h3>Filters</h3> -->
-			<!-- <p> -->
-			<!-- 	<button @click="showRecent">Only show recent (this decade)</button><br /> -->
-			<!-- 	<button @click="showSmallBooks">Only show small books (pages &lt; 200)</button><br /> -->
-			<!-- 	<button @click="showSmallChapters"> -->
-			<!-- 		Only show books with small chapters (&lt; 10 pages per chapter) -->
-			<!-- 	</button> -->
-			<!-- </p> -->
-			<button @click="incrementCount()">plus</button>
-
-			<h3>Genres</h3>
-
-			<!-- <h4>Romance</h4> -->
-			<!-- <ul> -->
-			<!-- 	<li v-for="(book,index) of genreRomanceBooks" :key="index">{{book.title}} -->
-			<!-- 		({{book.releaseYear}})</li> -->
-			<!-- </ul> -->
-			<br /><br />
-			<!-- <button @click="addTopic('Drama')">add drama</button> -->
+			<br />
+			<h3>Beloved Genres</h3>
+			{{ favoriteGenres }}
 			<!-- {{ percentIncrease(6244, 12757) }} -->
+			<BooksOverviewStats
+				:authors="authors"
+				:booklist="booklist"
+				:favoriteTopics="favoriteTopics"
+			/>
 		</div>
 	</div>
 </template>
 
 <script>
+import BooksOverviewStats from '@/components/BooksOverviewStats.vue'
+
 export default {
 	name: 'BooksOverview',
+	components: { BooksOverviewStats },
 	data: () => ({
-		count: 1,
-		showstatsnstuff: false,
+		showstatsnstuff: true,
 		abTitle: null,
 		abPages: null,
 		abChapters: null,
@@ -209,6 +152,7 @@ export default {
 				topics: ['flowers', 'roses', 'werewolves', 'dominant male lead', 'submissive female lead']
 			}
 		],
+
 		authors: [
 			{
 				id: 0,
@@ -219,49 +163,13 @@ export default {
 			{ id: 1, name: 'L.L. Koel Jee', birthdate: '1969-12-15', gender: 'M' },
 			{ id: 4, name: 'Money Penny', birthdate: '1940-05-05', gender: 'F' }
 		],
+
 		favoriteBooks: [],
 		favoriteTopics: [],
 		favoriteGenres: []
 	}),
-	computed: {
-		genreStatistics() {
-			return 'stats voor genres'
-		},
-		amountBigBooks() {
-			// console.log('showing big books > 150 pages');
-			// console.log('this.booklist:', this.booklist);
-			let amountbigbooks = 0
-			for (let i = 0; i < this.booklist.length; i++) {
-				const element = this.booklist[i]
-				if (element.pages > 150) amountbigbooks += 1
-			}
-			return amountbigbooks
-		},
-		amountRecentBooks() {
-			// console.log('showing recent books, released this decade');
-			let amountrecentbooks = 0
-			for (let i = 0; i < this.booklist.length; i++) {
-				const element = this.booklist[i]
-				if (element.releaseYear > 2013) amountrecentbooks += 1
-			}
-			return amountrecentbooks
-		},
-		amountBooksSmallChapters() {
-			// chapters of <10 pages
-			let tmp = 0
-			for (let i = 0; i < this.booklist.length; i++) {
-				if (this.booklist[i].pages / this.booklist[i].chapters < 10) tmp += 1
-			}
-			return tmp
-		},
-		amountBooksBestsellers() {
-			let tmp = 0
-			for (let i = 0; i < this.booklist.length; i++) {
-				if (this.booklist[i].soldAmount > 100000) tmp += 1
-			}
-			return tmp
-		},
 
+	computed: {
 		// showRecent() {
 		// 	console.log('showing recent')
 		// },
@@ -271,13 +179,8 @@ export default {
 		// favoriteBooksArray() {
 		// 	return this.favoriteBooks.slice();
 		// },
-		genreRomanceBooks() {
-			return this.booklist.filter((book) => book.genres.indexOf('romance') > -1)
-		},
-		genreDarkRomanceBooks() {
-			return this.booklist.filter((book) => book.genres.indexOf('dark romance') > -1)
-		}
 	},
+
 	methods: {
 		addFavoriteBook(bookName) {
 			if (!this.favoriteBooks.includes(bookName)) {
@@ -292,17 +195,19 @@ export default {
 		showSmallChapters() {
 			console.log('show small chapters')
 		},
-		incrementCount() {
-			this.count += 1
-			console.log('this.count:', this.count)
-		},
 		addTopic(topic) {
-			if (!this.favoriteTopics.includes(topic)) this.favoriteTopics.push(topic)
+			if (!this.favoriteTopics.includes(topic)) {
+				this.favoriteTopics.push(topic)
+				console.log(topic, 'added!')
+			}
+		},
+		addGenre(genre) {
+			if (!this.favoriteGenres.includes(genre)) {
+				this.favoriteGenres.push(genre)
+				console.log(genre, 'added!')
+			}
 		},
 		percentIncrease(oldN, newN) {
-			// let diff = newN - oldN
-			// let fraction = diff / oldN
-			// let percent = fraction * 100
 			let smaller = ((newN - oldN) / oldN) * 100
 			console.log('percent increase:', smaller)
 		},
@@ -327,29 +232,14 @@ export default {
 			this.abGenres = null
 			this.abTopics = null
 		}
-	},
-	watch: {
-		// favoriteBooks(val, oldVal) {
-		// 	deep: true;
-		// 	console.log('val:', val);
-		// 	console.log('oldVal:', oldVal);
-		// },
-		// favoriteBooksArray(newArray, oldArray) {
-		// 	// console.log('newArray: ',newArray);
-		// 	// console.log('oldArray: ', oldArray )
-		// 	console.log('Favorites updated')
-		// },
-		count(val, oldVal) {
-			console.log(val, oldVal)
-		},
-		booklist() {
-			console.log('?')
-		},
-		favoriteTopics(val, oldVal) {
-			console.log('val', val)
-			console.log('oldVal:', oldVal)
-		}
 	}
+
+	// watch: {
+	// 	favoriteTopics(val, oldVal) {
+	// 		console.log('val', val)
+	// 		console.log('oldVal:', oldVal)
+	// 	}
+	// }
 }
 </script>
 
